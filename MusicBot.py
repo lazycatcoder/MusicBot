@@ -15,6 +15,12 @@ import time
 import logging
 
 
+# Global variable
+music_list = []
+music_list_show = []
+music_chunks = []
+current_chunk = 0
+
 # # Logger
 # logger = telebot.logger
 # telebot.logger.setLevel(logging.DEBUG)
@@ -39,6 +45,9 @@ def send_welcome(message):
 # Main function
 @bot.message_handler(func=lambda message: True)
 def search_music(message):
+    global music_list, music_list_show, music_chunks, current_chunk
+
+    search_query=""
     search_query = message.text.replace(' ', '+').lower()
     
     if len(search_query) < 4:
@@ -180,7 +189,7 @@ def search_music(message):
 
                 @bot.callback_query_handler(func=lambda call: True)
                 def callback_query(call):
-                    nonlocal current_chunk, music_list_show          
+                    global current_chunk, music_list_show          
 
                     # If the user clicked the 'next' button and there are more songs to display
                     if call.data == 'next':
